@@ -163,6 +163,12 @@ namespace BinaryBuffer.CodeGenerator
                 lengthName = "u" + lengthName;
             }
 
+            AppendLine(indentDepth + 0, $"public {lengthName} Peek{printedLengthName}{endianName}()");
+            AppendLine(indentDepth + 0, $"{{");
+            AppendLine(indentDepth + 1, $"return Read{printedLengthName}{endianName}(_buffer, _offset);");
+            AppendLine(indentDepth + 0, $"}}");
+            AppendLine();
+
             AppendLine(indentDepth + 0, $"public {lengthName} Read{printedLengthName}{endianName}()");
             AppendLine(indentDepth + 0, $"{{");
             AppendLine(indentDepth + 1, $"var result = Read{printedLengthName}{endianName}(_buffer, _offset);");
