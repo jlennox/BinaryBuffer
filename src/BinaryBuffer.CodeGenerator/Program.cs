@@ -100,26 +100,45 @@ namespace BinaryBuffer.CodeGenerator
             _code.Append("\r\n");
         }
 
+        private static string NormalizeNewlines(string s)
+        {
+            return string.Join("\r\n", s.Split(
+                new[] { "\r\n", "\r", "\n" },
+                StringSplitOptions.None));
+        }
+
         public void GenerateClass(string namespaceName, string className)
         {
-            AppendLine(0, $"using System;");
-            AppendLine(0, $"using System.Runtime.CompilerServices;");
-            AppendLine();
-            AppendLine(0, $"#pragma warning disable CS3002 // Return type is not CLS-compliant");
-            AppendLine(0, $"namespace {namespaceName}");
-            AppendLine(0, $"{{");
-            AppendLine(1, $"public unsafe struct {className}");
-            AppendLine(1, $"{{");
-            AppendLine(2, $"private readonly byte[] _buffer;");
-            AppendLine(2, $"private int _offset;");
-            AppendLine();
-            AppendLine(2, $"public {className}(byte[] buffer, int offset)");
-            AppendLine(2, $"    : this()");
-            AppendLine(2, $"{{");
-            AppendLine(2, $"    _buffer = buffer;");
-            AppendLine(2, $"    _offset = offset;");
-            AppendLine(2, $"}}");
-            AppendLine();
+            AppendLine(0, NormalizeNewlines($@"using System;
+using System.Runtime.CompilerServices;
+
+#pragma warning disable CS3002 // Return type is not CLS-compliant
+namespace {namespaceName}
+{{
+    public unsafe struct {className}
+    {{
+        private readonly byte[] _buffer;
+        private int _offset;
+
+        public {className}(byte[] buffer, int offset)
+            : this()
+        {{
+            _buffer = buffer;
+            _offset = offset;
+        }}
+
+        public byte PeekByte()
+        {{
+            return _buffer[_offset];
+        }}
+
+        public byte ReadByte()
+        {{
+            var result = _buffer[_offset];
+            ++_offset;
+            return result;
+        }}
+"));
 
             foreach (var length in new[] { 2, 4, 8 })
             foreach (var unsigned in new[] { false, true })

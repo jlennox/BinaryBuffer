@@ -16,10 +16,21 @@ namespace BinaryBuffer
             _offset = offset;
         }
 
+        public byte PeekByte()
+        {
+            return _buffer[_offset];
+        }
+
+        public byte ReadByte()
+        {
+            var result = _buffer[_offset];
+            ++_offset;
+            return result;
+        }
+
         public short PeekShort()
         {
-            var result = ReadShort(_buffer, _offset);
-            return result;
+            return ReadShort(_buffer, _offset);
         }
 
         public short ReadShort()
@@ -97,8 +108,7 @@ namespace BinaryBuffer
 
         public short PeekShortNetwork()
         {
-            var result = ReadShortNetwork(_buffer, _offset);
-            return result;
+            return ReadShortNetwork(_buffer, _offset);
         }
 
         public short ReadShortNetwork()
@@ -176,8 +186,7 @@ namespace BinaryBuffer
 
         public ushort PeekUShort()
         {
-            var result = ReadUShort(_buffer, _offset);
-            return result;
+            return ReadUShort(_buffer, _offset);
         }
 
         public ushort ReadUShort()
@@ -255,8 +264,7 @@ namespace BinaryBuffer
 
         public ushort PeekUShortNetwork()
         {
-            var result = ReadUShortNetwork(_buffer, _offset);
-            return result;
+            return ReadUShortNetwork(_buffer, _offset);
         }
 
         public ushort ReadUShortNetwork()
@@ -334,8 +342,7 @@ namespace BinaryBuffer
 
         public int PeekInt()
         {
-            var result = ReadInt(_buffer, _offset);
-            return result;
+            return ReadInt(_buffer, _offset);
         }
 
         public int ReadInt()
@@ -417,8 +424,7 @@ namespace BinaryBuffer
 
         public int PeekIntNetwork()
         {
-            var result = ReadIntNetwork(_buffer, _offset);
-            return result;
+            return ReadIntNetwork(_buffer, _offset);
         }
 
         public int ReadIntNetwork()
@@ -500,8 +506,7 @@ namespace BinaryBuffer
 
         public uint PeekUInt()
         {
-            var result = ReadUInt(_buffer, _offset);
-            return result;
+            return ReadUInt(_buffer, _offset);
         }
 
         public uint ReadUInt()
@@ -583,8 +588,7 @@ namespace BinaryBuffer
 
         public uint PeekUIntNetwork()
         {
-            var result = ReadUIntNetwork(_buffer, _offset);
-            return result;
+            return ReadUIntNetwork(_buffer, _offset);
         }
 
         public uint ReadUIntNetwork()
@@ -666,8 +670,7 @@ namespace BinaryBuffer
 
         public long PeekLong()
         {
-            var result = ReadLong(_buffer, _offset);
-            return result;
+            return ReadLong(_buffer, _offset);
         }
 
         public long ReadLong()
@@ -757,8 +760,7 @@ namespace BinaryBuffer
 
         public long PeekLongNetwork()
         {
-            var result = ReadLongNetwork(_buffer, _offset);
-            return result;
+            return ReadLongNetwork(_buffer, _offset);
         }
 
         public long ReadLongNetwork()
@@ -848,8 +850,7 @@ namespace BinaryBuffer
 
         public ulong PeekULong()
         {
-            var result = ReadULong(_buffer, _offset);
-            return result;
+            return ReadULong(_buffer, _offset);
         }
 
         public ulong ReadULong()
@@ -939,8 +940,7 @@ namespace BinaryBuffer
 
         public ulong PeekULongNetwork()
         {
-            var result = ReadULongNetwork(_buffer, _offset);
-            return result;
+            return ReadULongNetwork(_buffer, _offset);
         }
 
         public ulong ReadULongNetwork()
