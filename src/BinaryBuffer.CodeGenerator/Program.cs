@@ -133,12 +133,13 @@ namespace {namespaceName}
 
         public byte PeekByte()
         {{
+            if (_offset > _buffer.Length) {{ throw new ArgumentException(""Index out of range."", nameof(_buffer)); }}
             return _buffer[_offset];
         }}
 
         public byte ReadByte()
         {{
-            var result = _buffer[_offset];
+            var result = PeekByte();
             ++_offset;
             return result;
         }}
@@ -187,9 +188,11 @@ namespace {namespaceName}
 
             AppendLine(indentDepth + 0, $"public {lengthName} Peek{printedLengthName}{endianName}()");
             AppendLine(indentDepth + 0, $"{{");
+            AppendLine(indentDepth + 1, $"if (_buffer.Length - _offset < {length}) {{ throw new ArgumentException(\"Index out of range.\", nameof(_buffer)); }}");
+            AppendLine();
             AppendLine(indentDepth + 1, $"fixed (byte* bufferPtr = &_buffer[_offset])");
             AppendLine(indentDepth + 1, $"{{");
-            AppendRead(indentDepth, littleEndian, length, lengthName);
+            AppendRead(indentDepth + 1, littleEndian, length, lengthName);
             AppendLine(indentDepth + 1, $"}}");
             AppendLine(indentDepth + 0, $"}}");
             AppendLine();
@@ -231,10 +234,13 @@ namespace {namespaceName}
             AppendLine(indentDepth + 0, $"{{");
             AppendRead(indentDepth, littleEndian, length, lengthName);
             AppendLine(indentDepth + 0, $"}}");
+            AppendLine();
 
             AppendLine(indentDepth + 0, $"public void Write{printedLengthName}{endianName}({lengthName} i)");
             AppendLine(indentDepth + 0, $"{{");
-            AppendLine(indentDepth + 1, $"Write{printedLengthName}{endianName}(_buffer, _offset, i);");
+            AppendLine(indentDepth + 1, $"if (_buffer.Length - _offset < {length}) {{ throw new ArgumentException(\"Index out of range.\", nameof(_buffer)); }}");
+            AppendLine();
+            AppendLine(indentDepth + 1, $"Write{printedLengthName}{endianName}Unsafe(_buffer, _offset, i);");
             AppendLine(indentDepth + 1, $"_offset += {length};");
             AppendLine(indentDepth + 0, $"}}");
             AppendLine();

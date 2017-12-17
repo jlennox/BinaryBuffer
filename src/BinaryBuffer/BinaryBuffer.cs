@@ -22,22 +22,25 @@ namespace BinaryBuffer
 
         public byte PeekByte()
         {
+            if (_offset > _buffer.Length) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
             return _buffer[_offset];
         }
 
         public byte ReadByte()
         {
-            var result = _buffer[_offset];
+            var result = PeekByte();
             ++_offset;
             return result;
         }
 
         public short PeekShort()
         {
+            if (_buffer.Length - _offset < 2) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return (short)(((short)bufferPtr[0] << 0) |
-                ((short)bufferPtr[1] << 8));
+                return (short)(((short)bufferPtr[0] << 0) |
+                    ((short)bufferPtr[1] << 8));
             }
         }
 
@@ -78,9 +81,12 @@ namespace BinaryBuffer
             return (short)(((short)bufferPtr[0] << 0) |
                 ((short)bufferPtr[1] << 8));
         }
+
         public void WriteShort(short i)
         {
-            WriteShort(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 2) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteShortUnsafe(_buffer, _offset, i);
             _offset += 2;
         }
 
@@ -116,10 +122,12 @@ namespace BinaryBuffer
 
         public short PeekShortNetwork()
         {
+            if (_buffer.Length - _offset < 2) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return (short)(((short)bufferPtr[0] << 8) |
-                ((short)bufferPtr[1] << 0));
+                return (short)(((short)bufferPtr[0] << 8) |
+                    ((short)bufferPtr[1] << 0));
             }
         }
 
@@ -160,9 +168,12 @@ namespace BinaryBuffer
             return (short)(((short)bufferPtr[0] << 8) |
                 ((short)bufferPtr[1] << 0));
         }
+
         public void WriteShortNetwork(short i)
         {
-            WriteShortNetwork(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 2) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteShortNetworkUnsafe(_buffer, _offset, i);
             _offset += 2;
         }
 
@@ -198,10 +209,12 @@ namespace BinaryBuffer
 
         public ushort PeekUShort()
         {
+            if (_buffer.Length - _offset < 2) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return (ushort)(((ushort)bufferPtr[0] << 0) |
-                ((ushort)bufferPtr[1] << 8));
+                return (ushort)(((ushort)bufferPtr[0] << 0) |
+                    ((ushort)bufferPtr[1] << 8));
             }
         }
 
@@ -242,9 +255,12 @@ namespace BinaryBuffer
             return (ushort)(((ushort)bufferPtr[0] << 0) |
                 ((ushort)bufferPtr[1] << 8));
         }
+
         public void WriteUShort(ushort i)
         {
-            WriteUShort(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 2) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteUShortUnsafe(_buffer, _offset, i);
             _offset += 2;
         }
 
@@ -280,10 +296,12 @@ namespace BinaryBuffer
 
         public ushort PeekUShortNetwork()
         {
+            if (_buffer.Length - _offset < 2) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return (ushort)(((ushort)bufferPtr[0] << 8) |
-                ((ushort)bufferPtr[1] << 0));
+                return (ushort)(((ushort)bufferPtr[0] << 8) |
+                    ((ushort)bufferPtr[1] << 0));
             }
         }
 
@@ -324,9 +342,12 @@ namespace BinaryBuffer
             return (ushort)(((ushort)bufferPtr[0] << 8) |
                 ((ushort)bufferPtr[1] << 0));
         }
+
         public void WriteUShortNetwork(ushort i)
         {
-            WriteUShortNetwork(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 2) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteUShortNetworkUnsafe(_buffer, _offset, i);
             _offset += 2;
         }
 
@@ -362,12 +383,14 @@ namespace BinaryBuffer
 
         public int PeekInt()
         {
+            if (_buffer.Length - _offset < 4) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return ((int)bufferPtr[0] << 0) |
-                ((int)bufferPtr[1] << 8) |
-                ((int)bufferPtr[2] << 16) |
-                ((int)bufferPtr[3] << 24);
+                return ((int)bufferPtr[0] << 0) |
+                    ((int)bufferPtr[1] << 8) |
+                    ((int)bufferPtr[2] << 16) |
+                    ((int)bufferPtr[3] << 24);
             }
         }
 
@@ -410,9 +433,12 @@ namespace BinaryBuffer
                 ((int)bufferPtr[2] << 16) |
                 ((int)bufferPtr[3] << 24);
         }
+
         public void WriteInt(int i)
         {
-            WriteInt(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 4) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteIntUnsafe(_buffer, _offset, i);
             _offset += 4;
         }
 
@@ -450,12 +476,14 @@ namespace BinaryBuffer
 
         public int PeekIntNetwork()
         {
+            if (_buffer.Length - _offset < 4) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return ((int)bufferPtr[0] << 24) |
-                ((int)bufferPtr[1] << 16) |
-                ((int)bufferPtr[2] << 8) |
-                ((int)bufferPtr[3] << 0);
+                return ((int)bufferPtr[0] << 24) |
+                    ((int)bufferPtr[1] << 16) |
+                    ((int)bufferPtr[2] << 8) |
+                    ((int)bufferPtr[3] << 0);
             }
         }
 
@@ -498,9 +526,12 @@ namespace BinaryBuffer
                 ((int)bufferPtr[2] << 8) |
                 ((int)bufferPtr[3] << 0);
         }
+
         public void WriteIntNetwork(int i)
         {
-            WriteIntNetwork(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 4) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteIntNetworkUnsafe(_buffer, _offset, i);
             _offset += 4;
         }
 
@@ -538,12 +569,14 @@ namespace BinaryBuffer
 
         public uint PeekUInt()
         {
+            if (_buffer.Length - _offset < 4) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return ((uint)bufferPtr[0] << 0) |
-                ((uint)bufferPtr[1] << 8) |
-                ((uint)bufferPtr[2] << 16) |
-                ((uint)bufferPtr[3] << 24);
+                return ((uint)bufferPtr[0] << 0) |
+                    ((uint)bufferPtr[1] << 8) |
+                    ((uint)bufferPtr[2] << 16) |
+                    ((uint)bufferPtr[3] << 24);
             }
         }
 
@@ -586,9 +619,12 @@ namespace BinaryBuffer
                 ((uint)bufferPtr[2] << 16) |
                 ((uint)bufferPtr[3] << 24);
         }
+
         public void WriteUInt(uint i)
         {
-            WriteUInt(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 4) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteUIntUnsafe(_buffer, _offset, i);
             _offset += 4;
         }
 
@@ -626,12 +662,14 @@ namespace BinaryBuffer
 
         public uint PeekUIntNetwork()
         {
+            if (_buffer.Length - _offset < 4) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return ((uint)bufferPtr[0] << 24) |
-                ((uint)bufferPtr[1] << 16) |
-                ((uint)bufferPtr[2] << 8) |
-                ((uint)bufferPtr[3] << 0);
+                return ((uint)bufferPtr[0] << 24) |
+                    ((uint)bufferPtr[1] << 16) |
+                    ((uint)bufferPtr[2] << 8) |
+                    ((uint)bufferPtr[3] << 0);
             }
         }
 
@@ -674,9 +712,12 @@ namespace BinaryBuffer
                 ((uint)bufferPtr[2] << 8) |
                 ((uint)bufferPtr[3] << 0);
         }
+
         public void WriteUIntNetwork(uint i)
         {
-            WriteUIntNetwork(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 4) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteUIntNetworkUnsafe(_buffer, _offset, i);
             _offset += 4;
         }
 
@@ -714,16 +755,18 @@ namespace BinaryBuffer
 
         public long PeekLong()
         {
+            if (_buffer.Length - _offset < 8) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return ((long)bufferPtr[0] << 0) |
-                ((long)bufferPtr[1] << 8) |
-                ((long)bufferPtr[2] << 16) |
-                ((long)bufferPtr[3] << 24) |
-                ((long)bufferPtr[4] << 32) |
-                ((long)bufferPtr[5] << 40) |
-                ((long)bufferPtr[6] << 48) |
-                ((long)bufferPtr[7] << 56);
+                return ((long)bufferPtr[0] << 0) |
+                    ((long)bufferPtr[1] << 8) |
+                    ((long)bufferPtr[2] << 16) |
+                    ((long)bufferPtr[3] << 24) |
+                    ((long)bufferPtr[4] << 32) |
+                    ((long)bufferPtr[5] << 40) |
+                    ((long)bufferPtr[6] << 48) |
+                    ((long)bufferPtr[7] << 56);
             }
         }
 
@@ -770,9 +813,12 @@ namespace BinaryBuffer
                 ((long)bufferPtr[6] << 48) |
                 ((long)bufferPtr[7] << 56);
         }
+
         public void WriteLong(long i)
         {
-            WriteLong(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 8) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteLongUnsafe(_buffer, _offset, i);
             _offset += 8;
         }
 
@@ -814,16 +860,18 @@ namespace BinaryBuffer
 
         public long PeekLongNetwork()
         {
+            if (_buffer.Length - _offset < 8) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return ((long)bufferPtr[0] << 56) |
-                ((long)bufferPtr[1] << 48) |
-                ((long)bufferPtr[2] << 40) |
-                ((long)bufferPtr[3] << 32) |
-                ((long)bufferPtr[4] << 24) |
-                ((long)bufferPtr[5] << 16) |
-                ((long)bufferPtr[6] << 8) |
-                ((long)bufferPtr[7] << 0);
+                return ((long)bufferPtr[0] << 56) |
+                    ((long)bufferPtr[1] << 48) |
+                    ((long)bufferPtr[2] << 40) |
+                    ((long)bufferPtr[3] << 32) |
+                    ((long)bufferPtr[4] << 24) |
+                    ((long)bufferPtr[5] << 16) |
+                    ((long)bufferPtr[6] << 8) |
+                    ((long)bufferPtr[7] << 0);
             }
         }
 
@@ -870,9 +918,12 @@ namespace BinaryBuffer
                 ((long)bufferPtr[6] << 8) |
                 ((long)bufferPtr[7] << 0);
         }
+
         public void WriteLongNetwork(long i)
         {
-            WriteLongNetwork(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 8) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteLongNetworkUnsafe(_buffer, _offset, i);
             _offset += 8;
         }
 
@@ -914,16 +965,18 @@ namespace BinaryBuffer
 
         public ulong PeekULong()
         {
+            if (_buffer.Length - _offset < 8) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return ((ulong)bufferPtr[0] << 0) |
-                ((ulong)bufferPtr[1] << 8) |
-                ((ulong)bufferPtr[2] << 16) |
-                ((ulong)bufferPtr[3] << 24) |
-                ((ulong)bufferPtr[4] << 32) |
-                ((ulong)bufferPtr[5] << 40) |
-                ((ulong)bufferPtr[6] << 48) |
-                ((ulong)bufferPtr[7] << 56);
+                return ((ulong)bufferPtr[0] << 0) |
+                    ((ulong)bufferPtr[1] << 8) |
+                    ((ulong)bufferPtr[2] << 16) |
+                    ((ulong)bufferPtr[3] << 24) |
+                    ((ulong)bufferPtr[4] << 32) |
+                    ((ulong)bufferPtr[5] << 40) |
+                    ((ulong)bufferPtr[6] << 48) |
+                    ((ulong)bufferPtr[7] << 56);
             }
         }
 
@@ -970,9 +1023,12 @@ namespace BinaryBuffer
                 ((ulong)bufferPtr[6] << 48) |
                 ((ulong)bufferPtr[7] << 56);
         }
+
         public void WriteULong(ulong i)
         {
-            WriteULong(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 8) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteULongUnsafe(_buffer, _offset, i);
             _offset += 8;
         }
 
@@ -1014,16 +1070,18 @@ namespace BinaryBuffer
 
         public ulong PeekULongNetwork()
         {
+            if (_buffer.Length - _offset < 8) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
             fixed (byte* bufferPtr = &_buffer[_offset])
             {
-            return ((ulong)bufferPtr[0] << 56) |
-                ((ulong)bufferPtr[1] << 48) |
-                ((ulong)bufferPtr[2] << 40) |
-                ((ulong)bufferPtr[3] << 32) |
-                ((ulong)bufferPtr[4] << 24) |
-                ((ulong)bufferPtr[5] << 16) |
-                ((ulong)bufferPtr[6] << 8) |
-                ((ulong)bufferPtr[7] << 0);
+                return ((ulong)bufferPtr[0] << 56) |
+                    ((ulong)bufferPtr[1] << 48) |
+                    ((ulong)bufferPtr[2] << 40) |
+                    ((ulong)bufferPtr[3] << 32) |
+                    ((ulong)bufferPtr[4] << 24) |
+                    ((ulong)bufferPtr[5] << 16) |
+                    ((ulong)bufferPtr[6] << 8) |
+                    ((ulong)bufferPtr[7] << 0);
             }
         }
 
@@ -1070,9 +1128,12 @@ namespace BinaryBuffer
                 ((ulong)bufferPtr[6] << 8) |
                 ((ulong)bufferPtr[7] << 0);
         }
+
         public void WriteULongNetwork(ulong i)
         {
-            WriteULongNetwork(_buffer, _offset, i);
+            if (_buffer.Length - _offset < 8) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
+
+            WriteULongNetworkUnsafe(_buffer, _offset, i);
             _offset += 8;
         }
 
