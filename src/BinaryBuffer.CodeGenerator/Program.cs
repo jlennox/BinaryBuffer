@@ -123,6 +123,10 @@ namespace {namespaceName}
         public {className}(byte[] buffer, int offset)
             : this()
         {{
+            if (buffer == null) {{ throw new ArgumentNullException(nameof(buffer)); }}
+            if (offset < 0) {{ throw new ArgumentOutOfRangeException(nameof(offset), offset, ""Value must be positive.""); }}
+            if (offset >= buffer.Length) {{ throw new ArgumentException(""Index out of range."", nameof(buffer)); }}
+
             _buffer = buffer;
             _offset = offset;
         }}
@@ -174,7 +178,6 @@ namespace {namespaceName}
 
             var endianName = littleEndian ? "" : "Network";
             var printedLengthName = MakeFirstUpperCase(lengthName);
-            var shiftAdjustment = littleEndian ? 8 : -8;
 
             if (unsigned)
             {
@@ -184,13 +187,16 @@ namespace {namespaceName}
 
             AppendLine(indentDepth + 0, $"public {lengthName} Peek{printedLengthName}{endianName}()");
             AppendLine(indentDepth + 0, $"{{");
-            AppendLine(indentDepth + 1, $"return Read{printedLengthName}{endianName}(_buffer, _offset);");
+            AppendLine(indentDepth + 1, $"fixed (byte* bufferPtr = &_buffer[_offset])");
+            AppendLine(indentDepth + 1, $"{{");
+            AppendRead(indentDepth, littleEndian, length, lengthName);
+            AppendLine(indentDepth + 1, $"}}");
             AppendLine(indentDepth + 0, $"}}");
             AppendLine();
 
             AppendLine(indentDepth + 0, $"public {lengthName} Read{printedLengthName}{endianName}()");
             AppendLine(indentDepth + 0, $"{{");
-            AppendLine(indentDepth + 1, $"var result = Read{printedLengthName}{endianName}(_buffer, _offset);");
+            AppendLine(indentDepth + 1, $"var result = Peek{printedLengthName}{endianName}();");
             AppendLine(indentDepth + 1, $"_offset += {length};");
             AppendLine(indentDepth + 1, $"return result;");
             AppendLine(indentDepth + 0, $"}}");
@@ -223,17 +229,7 @@ namespace {namespaceName}
             AppendLine(indentDepth + 0, $"public static {lengthName} Read{printedLengthName}{endianName}Unsafe(");
             AppendLine(indentDepth + 1, $"byte* bufferPtr, int offset)");
             AppendLine(indentDepth + 0, $"{{");
-            var shiftAmount = littleEndian ? 0 : length * 8 - 8;
-            var prefixed = length == 2 ? $"({lengthName})(" : "";
-            var postfix = length == 2 ? $")" : "";
-            AppendLine(indentDepth + 1, $"return {prefixed}(({lengthName})bufferPtr[0] << {shiftAmount}) |");
-            shiftAmount += shiftAdjustment;
-            for (var i = 0; i < length - 1; ++i)
-            {
-                var endswidth = i == length - 2 ? $"{postfix};" : " |";
-                AppendLine(indentDepth + 2, $"(({lengthName})bufferPtr[{i + 1}] << {shiftAmount}){endswidth}");
-                shiftAmount += shiftAdjustment;
-            }
+            AppendRead(indentDepth, littleEndian, length, lengthName);
             AppendLine(indentDepth + 0, $"}}");
 
             AppendLine(indentDepth + 0, $"public void Write{printedLengthName}{endianName}({lengthName} i)");
@@ -269,13 +265,35 @@ namespace {namespaceName}
             AppendLine(indentDepth + 0, $"public static void Write{printedLengthName}{endianName}Unsafe(");
             AppendLine(indentDepth + 1, $"byte* bufferPtr, int offset, {lengthName} i)");
             AppendLine(indentDepth + 0, $"{{");
+            AppendWrite(indentDepth, littleEndian, length);
+            AppendLine(indentDepth + 0, $"}}");
+        }
+
+        private void AppendRead(int indentDepth, bool littleEndian, int length, string lengthName)
+        {
+            var shiftAdjustment = littleEndian ? 8 : -8;
+            var shiftAmount = littleEndian ? 0 : length * 8 - 8;
+            var prefixed = length == 2 ? $"({lengthName})(" : "";
+            var postfix = length == 2 ? $")" : "";
+            AppendLine(indentDepth + 1, $"return {prefixed}(({lengthName})bufferPtr[0] << {shiftAmount}) |");
+            shiftAmount += shiftAdjustment;
+            for (var i = 0; i < length - 1; ++i)
+            {
+                var endswidth = i == length - 2 ? $"{postfix};" : " |";
+                AppendLine(indentDepth + 2, $"(({lengthName})bufferPtr[{i + 1}] << {shiftAmount}){endswidth}");
+                shiftAmount += shiftAdjustment;
+            }
+        }
+
+        private void AppendWrite(int indentDepth, bool littleEndian, int length)
+        {
+            var shiftAdjustment = littleEndian ? 8 : -8;
             var writeShiftAmount = littleEndian ? 0 : length * 8 - 8;
             for (var i = 0; i < length; ++i)
             {
                 AppendLine(indentDepth + 1, $"bufferPtr[{i}] = (byte)((i >> {writeShiftAmount}) & 0xFF);");
                 writeShiftAmount += shiftAdjustment;
             }
-            AppendLine(indentDepth + 0, $"}}");
         }
 
         public string GetGenerateCode()

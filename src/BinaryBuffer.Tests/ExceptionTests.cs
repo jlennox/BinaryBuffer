@@ -26,6 +26,9 @@ namespace BinaryBuffer.Tests
             ThrowsWhenBufferNull(() => BinaryBuffer.WriteUInt(null, 0, 1));
             ThrowsWhenBufferNull(() => BinaryBuffer.WriteULong(null, 0, 1));
             ThrowsWhenBufferNull(() => BinaryBuffer.WriteUShort(null, 0, 1));
+
+            ThrowsWhenBufferNull(() => new BinaryBuffer(null, 0));
+            ThrowsWhenBufferNull(() => new BinaryBuffer(null, 1));
         }
 
         private static void ThrowsWhenBufferNull(Action a)
@@ -61,6 +64,8 @@ namespace BinaryBuffer.Tests
             ThrowsWithNegativeOffset(() => BinaryBuffer.WriteUInt(buf, -1, 1));
             ThrowsWithNegativeOffset(() => BinaryBuffer.WriteULong(buf, -1, 1));
             ThrowsWithNegativeOffset(() => BinaryBuffer.WriteUShort(buf, -1, 1));
+
+            ThrowsWithNegativeOffset(() => new BinaryBuffer(buf, -1));
         }
 
         private static void ThrowsWithNegativeOffset(Action a)
@@ -96,6 +101,7 @@ namespace BinaryBuffer.Tests
             ThrowsWhenOutOfRange(() => BinaryBuffer.WriteUInt(buf, 100, 1));
             ThrowsWhenOutOfRange(() => BinaryBuffer.WriteULong(buf, 100, 1));
             ThrowsWhenOutOfRange(() => BinaryBuffer.WriteUShort(buf, 100, 1));
+            ThrowsWhenOutOfRange(() => new BinaryBuffer(buf, 100));
         }
 
         private static void ThrowsWhenOutOfRange(Action a)

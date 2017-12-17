@@ -12,6 +12,10 @@ namespace BinaryBuffer
         public BinaryBuffer(byte[] buffer, int offset)
             : this()
         {
+            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
+            if (offset < 0) { throw new ArgumentOutOfRangeException(nameof(offset), offset, "Value must be positive."); }
+            if (offset >= buffer.Length) { throw new ArgumentException("Index out of range.", nameof(buffer)); }
+
             _buffer = buffer;
             _offset = offset;
         }
@@ -30,12 +34,16 @@ namespace BinaryBuffer
 
         public short PeekShort()
         {
-            return ReadShort(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return (short)(((short)bufferPtr[0] << 0) |
+                ((short)bufferPtr[1] << 8));
+            }
         }
 
         public short ReadShort()
         {
-            var result = ReadShort(_buffer, _offset);
+            var result = PeekShort();
             _offset += 2;
             return result;
         }
@@ -108,12 +116,16 @@ namespace BinaryBuffer
 
         public short PeekShortNetwork()
         {
-            return ReadShortNetwork(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return (short)(((short)bufferPtr[0] << 8) |
+                ((short)bufferPtr[1] << 0));
+            }
         }
 
         public short ReadShortNetwork()
         {
-            var result = ReadShortNetwork(_buffer, _offset);
+            var result = PeekShortNetwork();
             _offset += 2;
             return result;
         }
@@ -186,12 +198,16 @@ namespace BinaryBuffer
 
         public ushort PeekUShort()
         {
-            return ReadUShort(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return (ushort)(((ushort)bufferPtr[0] << 0) |
+                ((ushort)bufferPtr[1] << 8));
+            }
         }
 
         public ushort ReadUShort()
         {
-            var result = ReadUShort(_buffer, _offset);
+            var result = PeekUShort();
             _offset += 2;
             return result;
         }
@@ -264,12 +280,16 @@ namespace BinaryBuffer
 
         public ushort PeekUShortNetwork()
         {
-            return ReadUShortNetwork(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return (ushort)(((ushort)bufferPtr[0] << 8) |
+                ((ushort)bufferPtr[1] << 0));
+            }
         }
 
         public ushort ReadUShortNetwork()
         {
-            var result = ReadUShortNetwork(_buffer, _offset);
+            var result = PeekUShortNetwork();
             _offset += 2;
             return result;
         }
@@ -342,12 +362,18 @@ namespace BinaryBuffer
 
         public int PeekInt()
         {
-            return ReadInt(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return ((int)bufferPtr[0] << 0) |
+                ((int)bufferPtr[1] << 8) |
+                ((int)bufferPtr[2] << 16) |
+                ((int)bufferPtr[3] << 24);
+            }
         }
 
         public int ReadInt()
         {
-            var result = ReadInt(_buffer, _offset);
+            var result = PeekInt();
             _offset += 4;
             return result;
         }
@@ -424,12 +450,18 @@ namespace BinaryBuffer
 
         public int PeekIntNetwork()
         {
-            return ReadIntNetwork(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return ((int)bufferPtr[0] << 24) |
+                ((int)bufferPtr[1] << 16) |
+                ((int)bufferPtr[2] << 8) |
+                ((int)bufferPtr[3] << 0);
+            }
         }
 
         public int ReadIntNetwork()
         {
-            var result = ReadIntNetwork(_buffer, _offset);
+            var result = PeekIntNetwork();
             _offset += 4;
             return result;
         }
@@ -506,12 +538,18 @@ namespace BinaryBuffer
 
         public uint PeekUInt()
         {
-            return ReadUInt(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return ((uint)bufferPtr[0] << 0) |
+                ((uint)bufferPtr[1] << 8) |
+                ((uint)bufferPtr[2] << 16) |
+                ((uint)bufferPtr[3] << 24);
+            }
         }
 
         public uint ReadUInt()
         {
-            var result = ReadUInt(_buffer, _offset);
+            var result = PeekUInt();
             _offset += 4;
             return result;
         }
@@ -588,12 +626,18 @@ namespace BinaryBuffer
 
         public uint PeekUIntNetwork()
         {
-            return ReadUIntNetwork(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return ((uint)bufferPtr[0] << 24) |
+                ((uint)bufferPtr[1] << 16) |
+                ((uint)bufferPtr[2] << 8) |
+                ((uint)bufferPtr[3] << 0);
+            }
         }
 
         public uint ReadUIntNetwork()
         {
-            var result = ReadUIntNetwork(_buffer, _offset);
+            var result = PeekUIntNetwork();
             _offset += 4;
             return result;
         }
@@ -670,12 +714,22 @@ namespace BinaryBuffer
 
         public long PeekLong()
         {
-            return ReadLong(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return ((long)bufferPtr[0] << 0) |
+                ((long)bufferPtr[1] << 8) |
+                ((long)bufferPtr[2] << 16) |
+                ((long)bufferPtr[3] << 24) |
+                ((long)bufferPtr[4] << 32) |
+                ((long)bufferPtr[5] << 40) |
+                ((long)bufferPtr[6] << 48) |
+                ((long)bufferPtr[7] << 56);
+            }
         }
 
         public long ReadLong()
         {
-            var result = ReadLong(_buffer, _offset);
+            var result = PeekLong();
             _offset += 8;
             return result;
         }
@@ -760,12 +814,22 @@ namespace BinaryBuffer
 
         public long PeekLongNetwork()
         {
-            return ReadLongNetwork(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return ((long)bufferPtr[0] << 56) |
+                ((long)bufferPtr[1] << 48) |
+                ((long)bufferPtr[2] << 40) |
+                ((long)bufferPtr[3] << 32) |
+                ((long)bufferPtr[4] << 24) |
+                ((long)bufferPtr[5] << 16) |
+                ((long)bufferPtr[6] << 8) |
+                ((long)bufferPtr[7] << 0);
+            }
         }
 
         public long ReadLongNetwork()
         {
-            var result = ReadLongNetwork(_buffer, _offset);
+            var result = PeekLongNetwork();
             _offset += 8;
             return result;
         }
@@ -850,12 +914,22 @@ namespace BinaryBuffer
 
         public ulong PeekULong()
         {
-            return ReadULong(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return ((ulong)bufferPtr[0] << 0) |
+                ((ulong)bufferPtr[1] << 8) |
+                ((ulong)bufferPtr[2] << 16) |
+                ((ulong)bufferPtr[3] << 24) |
+                ((ulong)bufferPtr[4] << 32) |
+                ((ulong)bufferPtr[5] << 40) |
+                ((ulong)bufferPtr[6] << 48) |
+                ((ulong)bufferPtr[7] << 56);
+            }
         }
 
         public ulong ReadULong()
         {
-            var result = ReadULong(_buffer, _offset);
+            var result = PeekULong();
             _offset += 8;
             return result;
         }
@@ -940,12 +1014,22 @@ namespace BinaryBuffer
 
         public ulong PeekULongNetwork()
         {
-            return ReadULongNetwork(_buffer, _offset);
+            fixed (byte* bufferPtr = &_buffer[_offset])
+            {
+            return ((ulong)bufferPtr[0] << 56) |
+                ((ulong)bufferPtr[1] << 48) |
+                ((ulong)bufferPtr[2] << 40) |
+                ((ulong)bufferPtr[3] << 32) |
+                ((ulong)bufferPtr[4] << 24) |
+                ((ulong)bufferPtr[5] << 16) |
+                ((ulong)bufferPtr[6] << 8) |
+                ((ulong)bufferPtr[7] << 0);
+            }
         }
 
         public ulong ReadULongNetwork()
         {
-            var result = ReadULongNetwork(_buffer, _offset);
+            var result = PeekULongNetwork();
             _offset += 8;
             return result;
         }
