@@ -210,7 +210,7 @@ namespace {namespaceName}
             AppendLine();
             AppendLine(indentDepth + 1, $"fixed (byte* bufferPtr = &buffer[offset])");
             AppendLine(indentDepth + 1, $"{{");
-            AppendLine(indentDepth + 2, $"return Read{printedLengthName}{endianName}Unsafe(bufferPtr, offset);");
+            AppendLine(indentDepth + 2, $"return Read{printedLengthName}{endianName}Unsafe(bufferPtr);");
             AppendLine(indentDepth + 1, $"}}");
             AppendLine(indentDepth + 0, $"}}");
             AppendLine();
@@ -221,13 +221,13 @@ namespace {namespaceName}
             AppendLine(indentDepth + 0, $"{{");
             AppendLine(indentDepth + 1, $"fixed (byte* bufferPtr = &buffer[offset])");
             AppendLine(indentDepth + 1, $"{{");
-            AppendLine(indentDepth + 2, $"return Read{printedLengthName}{endianName}Unsafe(bufferPtr, offset);");
+            AppendLine(indentDepth + 2, $"return Read{printedLengthName}{endianName}Unsafe(bufferPtr);");
             AppendLine(indentDepth + 1, $"}}");
             AppendLine(indentDepth + 0, $"}}");
             AppendLine();
 
             AppendLine(indentDepth + 0, $"public static {lengthName} Read{printedLengthName}{endianName}Unsafe(");
-            AppendLine(indentDepth + 1, $"byte* bufferPtr, int offset)");
+            AppendLine(indentDepth + 1, $"byte* bufferPtr)");
             AppendLine(indentDepth + 0, $"{{");
             AppendRead(indentDepth, littleEndian, length, lengthName);
             AppendLine(indentDepth + 0, $"}}");
@@ -247,7 +247,7 @@ namespace {namespaceName}
             AppendLine();
             AppendLine(indentDepth + 1, $"fixed (byte* bufferPtr = &buffer[offset])");
             AppendLine(indentDepth + 1, $"{{");
-            AppendLine(indentDepth + 2, $"Write{printedLengthName}{endianName}Unsafe(bufferPtr, offset, i);");
+            AppendLine(indentDepth + 2, $"Write{printedLengthName}{endianName}Unsafe(bufferPtr, i);");
             AppendLine(indentDepth + 1, $"}}");
             AppendLine(indentDepth + 0, $"}}");
             AppendLine();
@@ -257,13 +257,13 @@ namespace {namespaceName}
             AppendLine(indentDepth + 0, $"{{");
             AppendLine(indentDepth + 1, $"fixed (byte* bufferPtr = &buffer[offset])");
             AppendLine(indentDepth + 1, $"{{");
-            AppendLine(indentDepth + 2, $"Write{printedLengthName}{endianName}Unsafe(bufferPtr, offset, i);");
+            AppendLine(indentDepth + 2, $"Write{printedLengthName}{endianName}Unsafe(bufferPtr, i);");
             AppendLine(indentDepth + 1, $"}}");
             AppendLine(indentDepth + 0, $"}}");
             AppendLine();
 
             AppendLine(indentDepth + 0, $"public static void Write{printedLengthName}{endianName}Unsafe(");
-            AppendLine(indentDepth + 1, $"byte* bufferPtr, int offset, {lengthName} i)");
+            AppendLine(indentDepth + 1, $"byte* bufferPtr, {lengthName} i)");
             AppendLine(indentDepth + 0, $"{{");
             AppendWrite(indentDepth, littleEndian, length);
             AppendLine(indentDepth + 0, $"}}");

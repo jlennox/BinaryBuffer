@@ -58,7 +58,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadShortUnsafe(bufferPtr, offset);
+                return ReadShortUnsafe(bufferPtr);
             }
         }
 
@@ -68,12 +68,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadShortUnsafe(bufferPtr, offset);
+                return ReadShortUnsafe(bufferPtr);
             }
         }
 
         public static short ReadShortUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return (short)(((short)bufferPtr[0] << 0) |
                 ((short)bufferPtr[1] << 8));
@@ -94,7 +94,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteShortUnsafe(bufferPtr, offset, i);
+                WriteShortUnsafe(bufferPtr, i);
             }
         }
 
@@ -103,12 +103,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteShortUnsafe(bufferPtr, offset, i);
+                WriteShortUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteShortUnsafe(
-            byte* bufferPtr, int offset, short i)
+            byte* bufferPtr, short i)
         {
             bufferPtr[0] = (byte)((i >> 0) & 0xFF);
             bufferPtr[1] = (byte)((i >> 8) & 0xFF);
@@ -140,7 +140,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadShortNetworkUnsafe(bufferPtr, offset);
+                return ReadShortNetworkUnsafe(bufferPtr);
             }
         }
 
@@ -150,12 +150,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadShortNetworkUnsafe(bufferPtr, offset);
+                return ReadShortNetworkUnsafe(bufferPtr);
             }
         }
 
         public static short ReadShortNetworkUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return (short)(((short)bufferPtr[0] << 8) |
                 ((short)bufferPtr[1] << 0));
@@ -176,7 +176,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteShortNetworkUnsafe(bufferPtr, offset, i);
+                WriteShortNetworkUnsafe(bufferPtr, i);
             }
         }
 
@@ -185,12 +185,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteShortNetworkUnsafe(bufferPtr, offset, i);
+                WriteShortNetworkUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteShortNetworkUnsafe(
-            byte* bufferPtr, int offset, short i)
+            byte* bufferPtr, short i)
         {
             bufferPtr[0] = (byte)((i >> 8) & 0xFF);
             bufferPtr[1] = (byte)((i >> 0) & 0xFF);
@@ -222,7 +222,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadUShortUnsafe(bufferPtr, offset);
+                return ReadUShortUnsafe(bufferPtr);
             }
         }
 
@@ -232,12 +232,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadUShortUnsafe(bufferPtr, offset);
+                return ReadUShortUnsafe(bufferPtr);
             }
         }
 
         public static ushort ReadUShortUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return (ushort)(((ushort)bufferPtr[0] << 0) |
                 ((ushort)bufferPtr[1] << 8));
@@ -258,7 +258,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteUShortUnsafe(bufferPtr, offset, i);
+                WriteUShortUnsafe(bufferPtr, i);
             }
         }
 
@@ -267,12 +267,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteUShortUnsafe(bufferPtr, offset, i);
+                WriteUShortUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteUShortUnsafe(
-            byte* bufferPtr, int offset, ushort i)
+            byte* bufferPtr, ushort i)
         {
             bufferPtr[0] = (byte)((i >> 0) & 0xFF);
             bufferPtr[1] = (byte)((i >> 8) & 0xFF);
@@ -304,7 +304,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadUShortNetworkUnsafe(bufferPtr, offset);
+                return ReadUShortNetworkUnsafe(bufferPtr);
             }
         }
 
@@ -314,12 +314,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadUShortNetworkUnsafe(bufferPtr, offset);
+                return ReadUShortNetworkUnsafe(bufferPtr);
             }
         }
 
         public static ushort ReadUShortNetworkUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return (ushort)(((ushort)bufferPtr[0] << 8) |
                 ((ushort)bufferPtr[1] << 0));
@@ -340,7 +340,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteUShortNetworkUnsafe(bufferPtr, offset, i);
+                WriteUShortNetworkUnsafe(bufferPtr, i);
             }
         }
 
@@ -349,12 +349,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteUShortNetworkUnsafe(bufferPtr, offset, i);
+                WriteUShortNetworkUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteUShortNetworkUnsafe(
-            byte* bufferPtr, int offset, ushort i)
+            byte* bufferPtr, ushort i)
         {
             bufferPtr[0] = (byte)((i >> 8) & 0xFF);
             bufferPtr[1] = (byte)((i >> 0) & 0xFF);
@@ -388,7 +388,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadIntUnsafe(bufferPtr, offset);
+                return ReadIntUnsafe(bufferPtr);
             }
         }
 
@@ -398,12 +398,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadIntUnsafe(bufferPtr, offset);
+                return ReadIntUnsafe(bufferPtr);
             }
         }
 
         public static int ReadIntUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return ((int)bufferPtr[0] << 0) |
                 ((int)bufferPtr[1] << 8) |
@@ -426,7 +426,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteIntUnsafe(bufferPtr, offset, i);
+                WriteIntUnsafe(bufferPtr, i);
             }
         }
 
@@ -435,12 +435,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteIntUnsafe(bufferPtr, offset, i);
+                WriteIntUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteIntUnsafe(
-            byte* bufferPtr, int offset, int i)
+            byte* bufferPtr, int i)
         {
             bufferPtr[0] = (byte)((i >> 0) & 0xFF);
             bufferPtr[1] = (byte)((i >> 8) & 0xFF);
@@ -476,7 +476,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadIntNetworkUnsafe(bufferPtr, offset);
+                return ReadIntNetworkUnsafe(bufferPtr);
             }
         }
 
@@ -486,12 +486,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadIntNetworkUnsafe(bufferPtr, offset);
+                return ReadIntNetworkUnsafe(bufferPtr);
             }
         }
 
         public static int ReadIntNetworkUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return ((int)bufferPtr[0] << 24) |
                 ((int)bufferPtr[1] << 16) |
@@ -514,7 +514,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteIntNetworkUnsafe(bufferPtr, offset, i);
+                WriteIntNetworkUnsafe(bufferPtr, i);
             }
         }
 
@@ -523,12 +523,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteIntNetworkUnsafe(bufferPtr, offset, i);
+                WriteIntNetworkUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteIntNetworkUnsafe(
-            byte* bufferPtr, int offset, int i)
+            byte* bufferPtr, int i)
         {
             bufferPtr[0] = (byte)((i >> 24) & 0xFF);
             bufferPtr[1] = (byte)((i >> 16) & 0xFF);
@@ -564,7 +564,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadUIntUnsafe(bufferPtr, offset);
+                return ReadUIntUnsafe(bufferPtr);
             }
         }
 
@@ -574,12 +574,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadUIntUnsafe(bufferPtr, offset);
+                return ReadUIntUnsafe(bufferPtr);
             }
         }
 
         public static uint ReadUIntUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return ((uint)bufferPtr[0] << 0) |
                 ((uint)bufferPtr[1] << 8) |
@@ -602,7 +602,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteUIntUnsafe(bufferPtr, offset, i);
+                WriteUIntUnsafe(bufferPtr, i);
             }
         }
 
@@ -611,12 +611,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteUIntUnsafe(bufferPtr, offset, i);
+                WriteUIntUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteUIntUnsafe(
-            byte* bufferPtr, int offset, uint i)
+            byte* bufferPtr, uint i)
         {
             bufferPtr[0] = (byte)((i >> 0) & 0xFF);
             bufferPtr[1] = (byte)((i >> 8) & 0xFF);
@@ -652,7 +652,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadUIntNetworkUnsafe(bufferPtr, offset);
+                return ReadUIntNetworkUnsafe(bufferPtr);
             }
         }
 
@@ -662,12 +662,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadUIntNetworkUnsafe(bufferPtr, offset);
+                return ReadUIntNetworkUnsafe(bufferPtr);
             }
         }
 
         public static uint ReadUIntNetworkUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return ((uint)bufferPtr[0] << 24) |
                 ((uint)bufferPtr[1] << 16) |
@@ -690,7 +690,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteUIntNetworkUnsafe(bufferPtr, offset, i);
+                WriteUIntNetworkUnsafe(bufferPtr, i);
             }
         }
 
@@ -699,12 +699,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteUIntNetworkUnsafe(bufferPtr, offset, i);
+                WriteUIntNetworkUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteUIntNetworkUnsafe(
-            byte* bufferPtr, int offset, uint i)
+            byte* bufferPtr, uint i)
         {
             bufferPtr[0] = (byte)((i >> 24) & 0xFF);
             bufferPtr[1] = (byte)((i >> 16) & 0xFF);
@@ -744,7 +744,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadLongUnsafe(bufferPtr, offset);
+                return ReadLongUnsafe(bufferPtr);
             }
         }
 
@@ -754,12 +754,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadLongUnsafe(bufferPtr, offset);
+                return ReadLongUnsafe(bufferPtr);
             }
         }
 
         public static long ReadLongUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return ((long)bufferPtr[0] << 0) |
                 ((long)bufferPtr[1] << 8) |
@@ -786,7 +786,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteLongUnsafe(bufferPtr, offset, i);
+                WriteLongUnsafe(bufferPtr, i);
             }
         }
 
@@ -795,12 +795,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteLongUnsafe(bufferPtr, offset, i);
+                WriteLongUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteLongUnsafe(
-            byte* bufferPtr, int offset, long i)
+            byte* bufferPtr, long i)
         {
             bufferPtr[0] = (byte)((i >> 0) & 0xFF);
             bufferPtr[1] = (byte)((i >> 8) & 0xFF);
@@ -844,7 +844,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadLongNetworkUnsafe(bufferPtr, offset);
+                return ReadLongNetworkUnsafe(bufferPtr);
             }
         }
 
@@ -854,12 +854,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadLongNetworkUnsafe(bufferPtr, offset);
+                return ReadLongNetworkUnsafe(bufferPtr);
             }
         }
 
         public static long ReadLongNetworkUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return ((long)bufferPtr[0] << 56) |
                 ((long)bufferPtr[1] << 48) |
@@ -886,7 +886,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteLongNetworkUnsafe(bufferPtr, offset, i);
+                WriteLongNetworkUnsafe(bufferPtr, i);
             }
         }
 
@@ -895,12 +895,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteLongNetworkUnsafe(bufferPtr, offset, i);
+                WriteLongNetworkUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteLongNetworkUnsafe(
-            byte* bufferPtr, int offset, long i)
+            byte* bufferPtr, long i)
         {
             bufferPtr[0] = (byte)((i >> 56) & 0xFF);
             bufferPtr[1] = (byte)((i >> 48) & 0xFF);
@@ -944,7 +944,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadULongUnsafe(bufferPtr, offset);
+                return ReadULongUnsafe(bufferPtr);
             }
         }
 
@@ -954,12 +954,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadULongUnsafe(bufferPtr, offset);
+                return ReadULongUnsafe(bufferPtr);
             }
         }
 
         public static ulong ReadULongUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return ((ulong)bufferPtr[0] << 0) |
                 ((ulong)bufferPtr[1] << 8) |
@@ -986,7 +986,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteULongUnsafe(bufferPtr, offset, i);
+                WriteULongUnsafe(bufferPtr, i);
             }
         }
 
@@ -995,12 +995,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteULongUnsafe(bufferPtr, offset, i);
+                WriteULongUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteULongUnsafe(
-            byte* bufferPtr, int offset, ulong i)
+            byte* bufferPtr, ulong i)
         {
             bufferPtr[0] = (byte)((i >> 0) & 0xFF);
             bufferPtr[1] = (byte)((i >> 8) & 0xFF);
@@ -1044,7 +1044,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadULongNetworkUnsafe(bufferPtr, offset);
+                return ReadULongNetworkUnsafe(bufferPtr);
             }
         }
 
@@ -1054,12 +1054,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                return ReadULongNetworkUnsafe(bufferPtr, offset);
+                return ReadULongNetworkUnsafe(bufferPtr);
             }
         }
 
         public static ulong ReadULongNetworkUnsafe(
-            byte* bufferPtr, int offset)
+            byte* bufferPtr)
         {
             return ((ulong)bufferPtr[0] << 56) |
                 ((ulong)bufferPtr[1] << 48) |
@@ -1086,7 +1086,7 @@ namespace BinaryBuffer
 
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteULongNetworkUnsafe(bufferPtr, offset, i);
+                WriteULongNetworkUnsafe(bufferPtr, i);
             }
         }
 
@@ -1095,12 +1095,12 @@ namespace BinaryBuffer
         {
             fixed (byte* bufferPtr = &buffer[offset])
             {
-                WriteULongNetworkUnsafe(bufferPtr, offset, i);
+                WriteULongNetworkUnsafe(bufferPtr, i);
             }
         }
 
         public static void WriteULongNetworkUnsafe(
-            byte* bufferPtr, int offset, ulong i)
+            byte* bufferPtr, ulong i)
         {
             bufferPtr[0] = (byte)((i >> 56) & 0xFF);
             bufferPtr[1] = (byte)((i >> 48) & 0xFF);
