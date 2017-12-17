@@ -116,5 +116,29 @@ namespace BinaryBuffer.Tests
             {
             }
         }
+
+        [TestMethod]
+        public void ByteMethodsIndexOutOfBounds()
+        {
+            var buf = new byte[] { 5, 4, 3, 2 };
+            var bb = new BinaryBuffer(buf, 0);
+
+            Assert.AreEqual((byte)5, bb.ReadByte());
+            Assert.AreEqual((byte)4, bb.ReadByte());
+            Assert.AreEqual((byte)3, bb.ReadByte());
+            Assert.AreEqual((byte)2, bb.ReadByte());
+
+            Assert.ThrowsException<IndexOutOfRangeException>(() => bb.PeekByte());
+            Assert.ThrowsException<IndexOutOfRangeException>(() => bb.ReadByte());
+
+            bb = new BinaryBuffer(buf, 0);
+
+            bb.WriteByte(0);
+            bb.WriteByte(0);
+            bb.WriteByte(0);
+            bb.WriteByte(0);
+
+            Assert.ThrowsException<IndexOutOfRangeException>(() => bb.WriteByte(0));
+        }
     }
 }

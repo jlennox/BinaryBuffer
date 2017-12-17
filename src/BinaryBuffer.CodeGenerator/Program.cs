@@ -109,6 +109,10 @@ namespace BinaryBuffer.CodeGenerator
 
         public void GenerateClass(string namespaceName, string className)
         {
+            // Checking _offset in {Peek,Read,Write}Byte is not needed because
+            // they do not ultimately call unsafe memory access methods. I'm
+            // not sure fond of it throwing a different exception than the
+            // other methods...
             AppendLine(0, NormalizeNewlines($@"using System;
 using System.Runtime.CompilerServices;
 
@@ -133,15 +137,20 @@ namespace {namespaceName}
 
         public byte PeekByte()
         {{
-            if (_offset > _buffer.Length) {{ throw new ArgumentException(""Index out of range."", nameof(_buffer)); }}
             return _buffer[_offset];
         }}
 
         public byte ReadByte()
         {{
-            var result = PeekByte();
+            var result = _buffer[_offset];
             ++_offset;
             return result;
+        }}
+
+        public void WriteByte(byte i)
+        {{
+            _buffer[_offset] = i;
+            ++_offset;
         }}
 "));
 

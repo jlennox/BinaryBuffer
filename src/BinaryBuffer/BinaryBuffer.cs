@@ -22,15 +22,20 @@ namespace BinaryBuffer
 
         public byte PeekByte()
         {
-            if (_offset > _buffer.Length) { throw new ArgumentException("Index out of range.", nameof(_buffer)); }
             return _buffer[_offset];
         }
 
         public byte ReadByte()
         {
-            var result = PeekByte();
+            var result = _buffer[_offset];
             ++_offset;
             return result;
+        }
+
+        public void WriteByte(byte i)
+        {
+            _buffer[_offset] = i;
+            ++_offset;
         }
 
         public short PeekShort()
