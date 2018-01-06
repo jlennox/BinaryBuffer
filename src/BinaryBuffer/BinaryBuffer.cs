@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 
 #pragma warning disable CS3002 // Return type is not CLS-compliant
@@ -9,6 +10,21 @@ namespace BinaryBuffer
         private readonly byte[] _buffer;
         private int _offset;
 
+        public byte[] Buffer => _buffer;
+
+        public int Offset
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _offset;
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set
+            {
+                OffsetCheck(value);
+                _offset = value;
+            }
+        }
+
         public BinaryBuffer(byte[] buffer, int offset)
             : this()
         {
@@ -18,6 +34,41 @@ namespace BinaryBuffer
 
             _buffer = buffer;
             _offset = offset;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void OffsetCheck(int offset)
+        {
+            if (offset < 0 || offset >= _buffer.Length)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(offset), offset,
+                    "Cannot seek before start of or beyond end of buffer.");
+            }
+        }
+
+        public void Seek(int offset, SeekOrigin origin)
+        {
+            int newOffset;
+            switch (origin)
+            {
+                case SeekOrigin.Begin:
+                    newOffset = offset;
+                    break;
+                case SeekOrigin.Current:
+                    newOffset = _offset + offset;
+                    break;
+                case SeekOrigin.End:
+                    newOffset = _buffer.Length - 1 + offset;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        nameof(origin), origin, null);
+            }
+
+            OffsetCheck(newOffset);
+
+            _offset = newOffset;
         }
 
         public byte PeekByte()
